@@ -10,10 +10,14 @@ import * as utils from './utils'
 
 const app = express();
 
+// client_id와 secret은 필요에 따라 발급받아 수정하시면 됩니다.
 const oauth = {
   client_id: 'test-client98',
   client_secret: 'm4bj3vbwkafywrk9'
 }
+// redirectUri를 맞게 수정해서 사용하시면 됩니다.
+const rediretUri = 'http://localhost.com:3000/login-success';
+
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -24,7 +28,7 @@ app.set('view engine', 'handlebars');
 app.get('/', (req, res) => {
   const tokenBody = utils.getToken();
   if (utils.isEmptyObject(tokenBody)) {
-    res.redirect(`https://auth.tmup.com/oauth2/authorize?client_id=${oauth['client_id']}&response_type=code&redirect_uri=http://local.tmup.com:3000/login-success`);
+    res.redirect(`https://auth.tmup.com/oauth2/authorize?client_id=${oauth['client_id']}&response_type=code&redirect_uri=${redirectUri}`);
   }
   else {
     res.render('menu', tokenBody);
